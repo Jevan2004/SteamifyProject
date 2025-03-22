@@ -1,95 +1,104 @@
+"use client";
+
+import { useState } from "react";
+import { Search, Plus, Settings, ArrowUpDown } from "lucide-react";
 import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
 
-export default function Home() {
+export default function GamingPlatform() {
+  const [searchQuery, setSearchQuery] = useState("")
+
+  // Placeholder game data
+  const games = [
+    {
+      id: 1,
+      title: "Counter Strike 2",
+      image:
+        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot_148-7SEZ39N3VvSJWssCIjASxBDmUmZb40.png", // Using the source image for demo
+      price: "Free",
+    },
+    ...Array(9)
+      .fill(null)
+      .map((_, i) => ({
+        id: i + 2,
+        title: "Game",
+        image: null,
+        price: "Price",
+      })),
+  ]
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <div className="gaming-platform">
+      <div className="container">
+        {/* Profile Card */}
+        <div className="profile-card">
+          <div className="profile-image-container">
             <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="/placeholder.svg?height=220&width=220"
+              alt="Profile picture of a cat"
+              width={220}
+              height={220}
+              className="profile-image"
             />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+          </div>
+          <div className="profile-info">
+            <h1 className="profile-name">Username</h1>
+            <p className="profile-location">Nationality/hometown</p>
+            <p className="profile-description">Short profile description: I am a cat meow</p>
+          </div>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Library Section */}
+        <div className="library-section">
+          <div className="library-header">
+            <h2 className="library-title">Your library</h2>
+            <div className="search-container">
+              <Search className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+              />
+              <Settings className="settings-icon" />
+            </div>
+          </div>
+
+          {/* Games Grid */}
+          <div className="games-grid">
+            {games.map((game) => (
+              <div key={game.id} className="game-card">
+                <div className="game-image-container">
+                  {game.id === 1 ? (
+                    <div className="game-image-wrapper">
+                      <Image src="/placeholder.svg?height=300&width=225" alt={game.title} fill className="game-image" />
+                      <div className="game-overlay">
+                        <div className="game-title-overlay">Counter Strike 2</div>
+                        <div className="game-price-overlay">Free</div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="game-placeholder">N/A</div>
+                  )}
+                </div>
+                <div className="game-info">
+                  <p className="game-title">{game.id === 1 ? "Counter Strike 2" : "Game"}</p>
+                  <p className="game-price">{game.id === 1 ? "Free" : "Price"}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Add Button */}
+          <div className="add-button-container">
+            <button className="add-button">
+              <Plus className="add-icon" />
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
+
