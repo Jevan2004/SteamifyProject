@@ -1,31 +1,11 @@
-"use client";
-
+"use client"
 import { useState } from "react";
-import { Search, Plus, Settings, ArrowUpDown } from "lucide-react";
+import { Search, Plus, Settings } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
+import { games } from "./games.js";
 export default function GamingPlatform() {
-  const [searchQuery, setSearchQuery] = useState("")
-
-  // Placeholder game data
-  const games = [
-    {
-      id: 1,
-      title: "Counter Strike 2",
-      image:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot_148-7SEZ39N3VvSJWssCIjASxBDmUmZb40.png", // Using the source image for demo
-      price: "Free",
-    },
-    ...Array(9)
-      .fill(null)
-      .map((_, i) => ({
-        id: i + 2,
-        title: "Game",
-        image: null,
-        price: "Price",
-      })),
-  ]
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <div className="gaming-platform">
@@ -34,7 +14,7 @@ export default function GamingPlatform() {
         <div className="profile-card">
           <div className="profile-image-container">
             <Image
-              src="/placeholder.svg?height=220&width=220"
+              src="/images/profile.png"
               alt="Profile picture of a cat"
               width={220}
               height={220}
@@ -68,25 +48,32 @@ export default function GamingPlatform() {
           {/* Games Grid */}
           <div className="games-grid">
             {games.map((game) => (
-              <div key={game.id} className="game-card">
-                <div className="game-image-container">
-                  {game.id === 1 ? (
-                    <div className="game-image-wrapper">
-                      <Image src="/placeholder.svg?height=300&width=225" alt={game.title} fill className="game-image" />
-                      <div className="game-overlay">
-                        <div className="game-title-overlay">Counter Strike 2</div>
-                        <div className="game-price-overlay">Free</div>
+              <Link key={game.id} href={`/games/${game.id}`} passHref>
+                <div className="game-card">
+                  <div className="game-image-container">
+                    {game.image ? (
+                      <div className="game-image-wrapper relative">
+                        <Image 
+                          src={game.image} 
+                          alt={game.title} 
+                          layout="fill" 
+                          className="game-image object-cover"
+                        />
+                        <div className="game-overlay">
+                          <div className="game-title-overlay">{game.title}</div>
+                          <div className="game-price-overlay">{game.price}</div>
+                        </div>
                       </div>
-                    </div>
-                  ) : (
-                    <div className="game-placeholder">N/A</div>
-                  )}
+                    ) : (
+                      <div className="game-placeholder">N/A</div>
+                    )}
+                  </div>
+                  <div className="game-info">
+                    <p className="game-title">{game.title}</p>
+                    <p className="game-price">{game.price}</p>
+                  </div>
                 </div>
-                <div className="game-info">
-                  <p className="game-title">{game.id === 1 ? "Counter Strike 2" : "Game"}</p>
-                  <p className="game-price">{game.id === 1 ? "Free" : "Price"}</p>
-                </div>
-              </div>
+              </Link>
             ))}
           </div>
 
@@ -99,6 +86,5 @@ export default function GamingPlatform() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-
